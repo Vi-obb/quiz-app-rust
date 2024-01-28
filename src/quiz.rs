@@ -1,6 +1,6 @@
-struct Question {
-    title: String,
-    answer: bool,
+pub struct Question {
+    pub title: String,
+    pub answer: bool,
     user_answer: Option<bool>,
 }
 
@@ -14,13 +14,36 @@ impl Question {
     }
 }
 
-struct Quiz {
-    questions: Vec<Question>,
-    current_index: usize,
+pub struct Quiz {
+    pub questions: Vec<Question>,
+    pub current_index: usize,
 }
 
 impl Quiz {
-    fn current_question(&self) -> &Question {
+    pub fn sample() -> Self {
+    Self {
+      questions: vec![
+        Question {
+          title: "Is the sky blue?".to_string(),
+          answer: true,
+          user_answer: None
+        },
+        Question {
+          title: "Is the grass green?".to_string(),
+          answer: true,
+          user_answer: None
+        },
+        Question {
+          title: "Is the sun yellow?".to_string(),
+          answer: false,
+          user_answer: None
+        },
+      ],
+      current_index: 0
+    }
+  }
+
+    pub fn current_question(&self) -> &Question {
         &self.questions[self.current_index]
     }
 
@@ -48,11 +71,11 @@ impl Quiz {
         self.current_question()
     }
 
-    fn answer(&mut self, answer: bool) {
-    if let Some(question) = self.current_question_mut() {
-        question.user_answer = Some(answer);
+    pub fn answer(&mut self, answer: bool) {
+        if let Some(question) = self.current_question_mut() {
+            question.user_answer = Some(answer);
+        }
     }
-}
 
     fn calculate_score(&self) -> usize {
         let mut score = 0;
@@ -63,41 +86,33 @@ impl Quiz {
             }
         }
 
-        score 
+        score
     }
-
 }
-
-
-
-
-
-
-
 
 #[cfg(test)]
 mod tests {
-  use super::*;
+    use super::*;
 
-  #[test]
-  fn test_question_is_answered() {
-    let q = Question {
-      title: String::from("Is this a question?"),
-      answer: true,
-      user_answer: Some(true)
-    };
+    #[test]
+    fn test_question_is_answered() {
+        let q = Question {
+            title: String::from("Is this a question?"),
+            answer: true,
+            user_answer: Some(true),
+        };
 
-    assert_eq!(q.is_answered(), true);
-  }
+        assert_eq!(q.is_answered(), true);
+    }
 
-  #[test]
-  fn test_question_is_correct() {
-    let q = Question {
-      title: String::from("Is this a question?"),
-      answer: true,
-      user_answer: Some(true)
-    };
+    #[test]
+    fn test_question_is_correct() {
+        let q = Question {
+            title: String::from("Is this a question?"),
+            answer: true,
+            user_answer: Some(true),
+        };
 
-    assert_eq!(q.is_correct(), true);
-  }
+        assert_eq!(q.is_correct(), true);
+    }
 }
