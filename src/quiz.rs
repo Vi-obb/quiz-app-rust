@@ -1,7 +1,7 @@
 pub struct Question {
     pub title: String,
     pub answer: bool,
-    user_answer: Option<bool>,
+    pub user_answer: Option<bool>,
 }
 
 impl Question {
@@ -9,7 +9,7 @@ impl Question {
         self.user_answer.is_some()
     }
 
-    fn is_correct(&self) -> bool {
+    pub fn is_correct(&self) -> bool {
         self.user_answer == Some(self.answer)
     }
 }
@@ -51,7 +51,7 @@ impl Quiz {
         self.questions.get_mut(self.current_index)
     }
 
-    fn next_question(&mut self) -> &Question {
+    pub fn next_question(&mut self) -> &Question {
         let count = self.questions.len() - 1;
 
         if self.current_question().is_answered() && self.current_index < count {
@@ -61,10 +61,8 @@ impl Quiz {
         self.current_question()
     }
 
-    fn prev_question(&mut self) -> &Question {
-        let count = self.questions.len() - 1;
-
-        if self.current_index > count {
+    pub fn prev_question(&mut self) -> &Question {
+        if self.current_index > 0 {
             self.current_index -= 1;
         }
 
@@ -77,12 +75,16 @@ impl Quiz {
         }
     }
 
-    fn calculate_score(&self) -> usize {
+    pub fn calculate_score(&self) -> i32 {
         let mut score = 0;
 
         for question in &self.questions {
-            if question.is_correct() {
-                score += 1;
+            if let Some(_user_answer) = question.user_answer {
+                if question.is_correct() {
+                    score += 1;
+                } else {
+                    score -= 1;
+                }
             }
         }
 
