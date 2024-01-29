@@ -23,7 +23,6 @@ impl eframe::App for App {
             let count = self.quiz.questions.len();
             let score = self.quiz.calculate_score();
 
-            // Question count and score
             ui.horizontal(|ui| {
                 ui.label(format!("{}/{}", current_index, count));
                 ui.label(format!("Score: {}", score));
@@ -60,6 +59,7 @@ impl eframe::App for App {
                     self.quiz.next_question();
                 }
             });
+            // Question count and score
 
             // egui::CentralPanel::default().show(ctx, |ui| {
             //     ui.label("1/10");
